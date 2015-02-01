@@ -182,6 +182,7 @@ public class LockProcess {
     List<String> instancesInCluster = helixAdmin.getInstancesInCluster(clusterName);
     System.out.println("InstancesInCluster: " + instancesInCluster);
     if (instancesInCluster == null || !instancesInCluster.contains(instanceConfig.getInstanceName())) {
+      // TODO - Need to update the ZKHelixAdmin class to optionally create ephemeral nodes
       helixAdmin.addInstance(clusterName, instanceConfig);
     }
   }
