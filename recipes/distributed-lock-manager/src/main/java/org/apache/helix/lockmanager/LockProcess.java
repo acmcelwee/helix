@@ -187,6 +187,8 @@ public class LockProcess {
   }
 
   public void stop(InstanceConfig instanceConfig) {
+    helixAdmin.dropInstance(clusterName, instanceConfig);
+
     if (participantManager != null) {
       participantManager.disconnect();
     }
