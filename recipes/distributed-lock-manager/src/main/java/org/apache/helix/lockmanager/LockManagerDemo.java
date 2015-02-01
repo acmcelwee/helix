@@ -53,48 +53,48 @@ public class LockManagerDemo {
     Thread[] processArray;
     processArray = new Thread[numInstances];
     try {
-      startLocalZookeeper(2199);
+//      startLocalZookeeper(2199);
+
       HelixAdmin admin = new ZKHelixAdmin(zkAddress);
-      admin.addCluster(clusterName, true);
-      admin.addStateModelDef(clusterName, "OnlineOffline", new StateModelDefinition(
-          StateModelConfigGenerator.generateConfigForOnlineOffline()));
-      admin.addResource(clusterName, lockGroupName, numPartitions, "OnlineOffline",
-          RebalanceMode.FULL_AUTO.toString());
-      admin.rebalance(clusterName, lockGroupName, 1);
-      for (int i = 0; i < numInstances; i++) {
-        final String instanceName = "localhost_" + (12000 + i);
-        processArray[i] = new Thread(new Runnable() {
+//      admin.addCluster(clusterName, true);
+//      admin.addStateModelDef(clusterName, "OnlineOffline", new StateModelDefinition(
+//          StateModelConfigGenerator.generateConfigForOnlineOffline()));
+//      admin.addResource(clusterName, lockGroupName, numPartitions, "OnlineOffline",
+//          RebalanceMode.FULL_AUTO.toString());
+//      admin.rebalance(clusterName, lockGroupName, 1);
 
-          @Override
-          public void run() {
-            LockProcess lockProcess = null;
+//      for (int i = 0; i < numInstances; i++) {
+//        final String instanceName = "localhost_" + (12000 + i);
+//        processArray[i] = new Thread(new Runnable() {
+//
+//          @Override
+//          public void run() {
+//            LockProcess lockProcess = null;
+//
+//            try {
+//              lockProcess = new LockProcess(clusterName, lockGroupName, zkAddress, instanceName, startController);
+////              lockProcess.start(-1);
+//              Thread.currentThread().join();
+//            } catch (InterruptedException e) {
+//              System.out.println(instanceName + "Interrupted");
+//              if (lockProcess != null) {
+////                lockProcess.stop();
+//              }
+//            } catch (Exception e) {
+//              e.printStackTrace();
+//            }
+//          }
+//
+//        });
+//        processArray[i].start();
+//      }
 
-            try {
-              lockProcess = new LockProcess(clusterName, zkAddress, instanceName, startController);
-              lockProcess.start();
-              Thread.currentThread().join();
-            } catch (InterruptedException e) {
-              System.out.println(instanceName + "Interrupted");
-              if (lockProcess != null) {
-                lockProcess.stop();
-              }
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          }
+//      Thread.sleep(3000);
+//      controllerManager =
+//          HelixControllerMain.startHelixController(zkAddress, clusterName, "controller",
+//              HelixControllerMain.STANDALONE);
+//      Thread.sleep(5000);
 
-        });
-        processArray[i].start();
-      }
-      Thread.sleep(3000);
-      controllerManager =
-          HelixControllerMain.startHelixController(zkAddress, clusterName, "controller",
-              HelixControllerMain.STANDALONE);
-      Thread.sleep(5000);
-      printStatus(admin, clusterName, lockGroupName);
-      System.out.println("Stopping localhost_12000");
-      processArray[0].interrupt();
-      Thread.sleep(3000);
       printStatus(admin, clusterName, lockGroupName);
       Thread.currentThread().join();
     } catch (Exception e) {

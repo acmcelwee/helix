@@ -22,9 +22,19 @@ package org.apache.helix.lockmanager;
 import org.apache.helix.api.StateTransitionHandlerFactory;
 import org.apache.helix.api.id.PartitionId;
 
+import java.util.function.Function;
+
 public class LockFactory extends StateTransitionHandlerFactory<Lock> {
+  private Function<Integer, Void> lockAcquired;
+  private Function<Integer, Void> lockReleased;
+
+  public LockFactory(Function<Integer, Void> lockAcquired, Function<Integer, Void> lockReleased) {
+    this.lockAcquired = lockAcquired;
+    this.lockReleased = lockReleased;
+  }
+
   @Override
   public Lock createStateTransitionHandler(PartitionId lockName) {
-    return new Lock(lockName.toString());
+    return new Lock(lockName, lockAcquired, lockReleased);
   }
 }

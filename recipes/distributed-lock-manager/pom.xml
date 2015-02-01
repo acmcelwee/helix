@@ -125,6 +125,10 @@ under the License.
               <mainClass>org.apache.helix.lockmanager.LockManagerDemo</mainClass>
               <name>lock-manager-demo</name>
             </program>
+            <program>
+              <mainClass>org.apache.helix.lockmanager.LockProcess</mainClass>
+              <name>lock-process-demo</name>
+            </program>
           </programs>
         </configuration>
       </plugin>

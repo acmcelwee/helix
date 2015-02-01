@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Joiner;
 import org.I0Itec.zkclient.DataUpdater;
 import org.I0Itec.zkclient.exception.ZkNoNodeException;
 import org.apache.helix.AccessOption;
@@ -834,10 +835,12 @@ public class ZKHelixAdmin implements HelixAdmin {
     if (group != null && group.length() > 0) {
       instanceNames = getInstancesInClusterWithTag(clusterName, group);
     }
+    System.out.println(String.format("InstanceNames - %s", Joiner.on(',').join(instanceNames)));
     if (instanceNames.size() == 0) {
       logger.info("No tags found for resource " + resourceName + ", use all instances");
       instanceNames = getInstancesInCluster(clusterName);
       group = "";
+      System.out.println(String.format("InstanceNames (no tags) - %s", Joiner.on(',').join(instanceNames)));
     } else {
       logger.info("Found instances with tag for " + resourceName + " " + instanceNames);
     }
