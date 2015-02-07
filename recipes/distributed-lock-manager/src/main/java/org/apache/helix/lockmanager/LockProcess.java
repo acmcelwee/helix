@@ -135,7 +135,8 @@ public class LockProcess {
         ));
       }
     });
-  }
+
+ }
 
   private void addInstanceConfigChangeListener() throws Exception {
     participantManager.addInstanceConfigChangeListener(new InstanceConfigChangeListener() {
@@ -188,7 +189,8 @@ public class LockProcess {
   }
 
   public void stop(InstanceConfig instanceConfig) {
-    helixAdmin.dropInstance(clusterName, instanceConfig);
+    // TODO - work is never reclaimed unless I explicitly call this. Ideally, a failed node's work would be auto reclaimed
+//    helixAdmin.dropInstance(clusterName, instanceConfig);
 
     if (participantManager != null) {
       participantManager.disconnect();
@@ -212,8 +214,6 @@ public class LockProcess {
       final LockProcess lockProcess =
         new LockProcess(clusterName, lockGroupName, zkAddress, instanceName, port == 12000);
     final InstanceConfig instanceConfig = new InstanceConfig(instanceName);
-    instanceConfig.setHostName("localhost");
-    instanceConfig.setPort(Integer.toString(port));
 
     Runtime.getRuntime().addShutdownHook(new Thread() {
       @Override
